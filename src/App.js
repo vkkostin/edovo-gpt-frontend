@@ -3,8 +3,8 @@ import axios from "axios";
 import { useState } from "react";
 import './App.css';
 
-// const URL = 'https://edovo-gpt-3d22912cfd6d.herokuapp.com/api';
-const URL = 'http://localhost:8080/api';
+const URL = 'https://edovo-gpt-3d22912cfd6d.herokuapp.com/api';
+// const URL = 'http://localhost:8080/api';
 
 const uploadToServer = (file, onUploadProgress) => {
     let formData = new FormData();
