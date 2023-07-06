@@ -58,7 +58,14 @@ button {
   padding: 15px;
 }
 
-.download-container {
+.download-link:visited,
+.download-link:hover,
+.download-link:active,
+.download-link:link {
+  display: block;
+  color: white;
+  text-decoration: none;
+
   border-radius: 5px;
   height: 50px;
   background-color: rgb(99, 218, 175);
@@ -67,12 +74,4 @@ button {
   justify-content: center;
   width: 200px;
   margin: 0 auto;
-}
-
-.download-link:visited,
-.download-link:hover,
-.download-link:active,
-.download-link:link {
-  color: white;
-  text-decoration: none;
 }

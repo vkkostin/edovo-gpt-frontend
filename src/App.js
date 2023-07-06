@@ -173,9 +173,7 @@ function App() {
         >CHECK PROGRESS</button>
       </div>
 
-      <div className="download-container">
-          <a className="download-link" href={`${URL}/download`} target="_blank">Download</a>
-      </div>
+      <a className="download-link" href={`${URL}/download`} target="_blank">DOWNLOAD</a>
     </div>
   );
 }
