@@ -3,8 +3,8 @@ import axios from "axios";
 import { useState } from "react";
 import './App.css';
 
-const URL = 'https://edovo-gpt-3d22912cfd6d.herokuapp.com/api';
-// const URL = 'http://localhost:8080/api';
+// const URL = 'https://edovo-gpt-3d22912cfd6d.herokuapp.com/api';
+const URL = 'http://localhost:8080/api';
 
 const uploadToServer = (file, onUploadProgress) => {
     let formData = new FormData();
@@ -181,15 +181,19 @@ function App() {
               className="prompt-button"
           >{hasFollowUpPrompt ? 'Remove Follow-up Prompt' : 'Add Follow-up Prompt'}</button>
 
-        <p>
-          Enter <a href="https://platform.openai.com/docs/guides/gpt/chat-completions-api" target="_blank">system message</a> (optional):
-        </p>
-        <input className="system-message" type="text" placeholder="System Message" onChange={changeSystemMessage}/>
+        <div className="outline">
+          <p>
+            Enter <a href="https://platform.openai.com/docs/guides/gpt/chat-completions-api" target="_blank">system message</a> (optional):
+          </p>
+          <input className="options" type="text" placeholder="System Message" onChange={changeSystemMessage}/>
+        </div>
 
-        <p>
-          Enter <a href="https://platform.openai.com/docs/guides/gpt/how-should-i-set-the-temperature-parameter" target="_blank">temperature</a> (optional):
-        </p>
-        <input className="system-message" type="number" placeholder="Temperature" min="0" max="2" step="0.1" onChange={changeTemperature}/>
+        <div className="outline">
+          <p>
+            Enter <a href="https://platform.openai.com/docs/guides/gpt/how-should-i-set-the-temperature-parameter" target="_blank">temperature</a> (0-2 in 0.1 increments, optional):
+          </p>
+          <input className="options" type="number" placeholder="Temperature" min="0" max="2" step="0.1" onChange={changeTemperature}/>
+        </div>
 
         <button onClick={submit} className="submit-button">Submit to AI</button>
       </div>

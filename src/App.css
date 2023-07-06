@@ -72,7 +72,12 @@ button {
   margin: 0 auto;
 }
 
-.system-message {
-  width: 100%;
+.options {
+  width: 95%;
   margin-bottom: 20px;
+}
+
+.outline {
+  outline: 3px solid black;
+  margin: 50px;
 }
