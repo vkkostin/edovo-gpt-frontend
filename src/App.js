@@ -56,6 +56,16 @@ function App() {
   };
 
   const submit = async () => {
+    if (hasFollowUpPrompt) {
+      if (!prompt || !followUpPrompt || !followUpPromptCondition) {
+        window.alert('You must have an initial prompt, a follow-up prompt, and a condition for the follow-up prompt before you can submit.');
+        return;
+      }
+    } else if (!prompt) {
+      window.alert('You must have a prompt before you can submit.');
+      return;
+    }
+
     const {data: {currentItem, totalItems}} = await axios.get(`${URL}/progress`);
 
     const current = parseInt(currentItem, 10);
@@ -160,7 +170,7 @@ function App() {
 
           <button
               onClick={submit}
-              disabled={hasFollowUpPrompt ? (!prompt || !followUpPrompt || !followUpPromptCondition) : !prompt}
+              // disabled={hasFollowUpPrompt ? (!prompt || !followUpPrompt || !followUpPromptCondition) : !prompt}
               className="submit-button"
           >Submit to AI</button>
         </div>
