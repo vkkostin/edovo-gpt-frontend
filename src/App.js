@@ -3,8 +3,8 @@ import axios from "axios";
 import { useState } from "react";
 import './App.css';
 
-// const URL = 'https://edovo-gpt-3d22912cfd6d.herokuapp.com/api';
-const URL = 'http://localhost:8080/api';
+const URL = 'https://edovo-gpt-3d22912cfd6d.herokuapp.com/api';
+// const URL = 'http://localhost:8080/api';
 
 const uploadToServer = (file, onUploadProgress) => {
     let formData = new FormData();
@@ -144,8 +144,16 @@ function App() {
     <div className="App">
       <div className="section section--upload">
         <h3>DATA UPLOAD:</h3>
+
+        <ul className="instructions">
+          <li>Have a Google spreadsheet</li>
+          <li>Make sure you have "question" and "answer" headers</li>
+          <li>Go to File &gt; Download &gt; Comma Separated Values (.csv)</li>
+          <li>Download the CSV and upload it below</li>
+        </ul>
+        <br/>
         <p>
-          Your CSV <strong>MUST</strong> have "answer" and "question" headers.
+          Your CSV <strong>**MUST**</strong> have "answer" and "question" headers.
         </p>
         <div>
           <label className="btn btn-default">
