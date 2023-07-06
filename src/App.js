@@ -24,11 +24,12 @@ function App() {
   const [currentFile, setCurrentFile] = useState(undefined);
   const [message, setMessage] = useState("");
   const [progress, setProgress] = useState(0);
-  const [data, setData] = useState([]);
   const [prompt, setPrompt] = useState('');
   const [hasFollowUpPrompt, setHasFollowUpPrompt] = useState(false);
   const [followUpPrompt, setFollowUpPrompt] = useState('');
   const [followUpPromptCondition, setFollowUpPromptCondition] = useState('');
+  const [systemMessage, setSystemMessage] = useState('');
+  const [temperature, setTemperature] = useState('');
 
   const upload = () => {
       let currentFile = selectedFiles[0];
@@ -40,6 +41,7 @@ function App() {
         setProgress(Math.round((100 * event.loaded) / event.total));
       })
         .then(async (response) => {
+          console.log(response.data.message)
           setMessage(response.data.message);
         })
         .catch(() => {
@@ -78,6 +80,8 @@ function App() {
         const data = {
           prompt,
           ...(hasFollowUpPrompt ? {followUpPrompt, followUpPromptCondition} : {}),
+          ...(systemMessage ? {systemMessage} : {}),
+          ...(temperature ? {temperature} : {}),
         }
 
         return await axios.post(`${URL}/submit`, data);
@@ -95,6 +99,14 @@ function App() {
 
   const changeFollowUpPromptCondition = event => {
     setFollowUpPromptCondition(event.target.value);
+  }
+
+  const changeSystemMessage = event => {
+    setSystemMessage(event.target.value);
+  }
+
+  const changeTemperature = event => {
+    setTemperature(event.target.value);
   }
 
   const checkProgress = async () => {
@@ -154,6 +166,8 @@ function App() {
         </div>
       </div>
 
+      <hr/>
+
       <div className="section section--prompt">
         <h3>PROMPT:</h3>
         <p>
@@ -162,19 +176,25 @@ function App() {
         <textarea placeholder="Prompt" className="prompt-input" onChange={changePrompt}/>
         {followUpPromptSection}
 
-        <div className="button-container">
-          <button
+        <button
               onClick={() => setHasFollowUpPrompt(previousState => !previousState)}
               className="prompt-button"
           >{hasFollowUpPrompt ? 'Remove Follow-up Prompt' : 'Add Follow-up Prompt'}</button>
 
-          <button
-              onClick={submit}
-              // disabled={hasFollowUpPrompt ? (!prompt || !followUpPrompt || !followUpPromptCondition) : !prompt}
-              className="submit-button"
-          >Submit to AI</button>
-        </div>
+        <p>
+          Enter <a href="https://platform.openai.com/docs/guides/gpt/chat-completions-api" target="_blank">system message</a> (optional):
+        </p>
+        <input className="system-message" type="text" placeholder="System Message" onChange={changeSystemMessage}/>
+
+        <p>
+          Enter <a href="https://platform.openai.com/docs/guides/gpt/how-should-i-set-the-temperature-parameter" target="_blank">temperature</a> (optional):
+        </p>
+        <input className="system-message" type="number" placeholder="Temperature" min="0" max="2" step="0.1" onChange={changeTemperature}/>
+
+        <button onClick={submit} className="submit-button">Submit to AI</button>
       </div>
+
+      <hr/>
 
       <div className="section section--prompt">
         <button
