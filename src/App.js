@@ -3,8 +3,8 @@ import axios from "axios";
 import { useState } from "react";
 import './App.css';
 
-const URL = 'https://edovo-gpt-3d22912cfd6d.herokuapp.com/api';
-// const URL = 'http://localhost:8080/api';
+// const URL = 'https://edovo-gpt-3d22912cfd6d.herokuapp.com/api';
+const URL = 'http://localhost:8080/api';
 
 const uploadToServer = (file, onUploadProgress) => {
     let formData = new FormData();
@@ -26,6 +26,9 @@ function App() {
   const [progress, setProgress] = useState(0);
   const [data, setData] = useState([]);
   const [prompt, setPrompt] = useState('');
+  const [hasFollowUpPrompt, setHasFollowUpPrompt] = useState(false);
+  const [followUpPrompt, setFollowUpPrompt] = useState('');
+  const [followUpPromptCondition, setFollowUpPromptCondition] = useState('');
 
   const upload = () => {
       let currentFile = selectedFiles[0];
@@ -62,13 +65,26 @@ function App() {
       window.alert(`Processing ${currentItem} / ${totalItems} items. Please wait before trying another prompt.`);
     } else {
       if (window.confirm('Submitting your prompt will submit your data to OpenAI. You will not be able to submit another batch of data until the current batch of data has processed. Are you sure you want to continue?')) {
-        return await axios.post(`${URL}/submit`, {prompt});
+        const data = {
+          prompt,
+          ...(hasFollowUpPrompt ? {followUpPrompt, followUpPromptCondition} : {}),
+        }
+
+        return await axios.post(`${URL}/submit`, data);
       }
     }
   }
 
   const changePrompt = event => {
       setPrompt(event.target.value);
+  }
+
+  const changeFollowUpPrompt = event => {
+    setFollowUpPrompt(event.target.value);
+  }
+
+  const changeFollowUpPromptCondition = event => {
+    setFollowUpPromptCondition(event.target.value);
   }
 
   const checkProgress = async () => {
@@ -82,6 +98,24 @@ function App() {
     } else {
       window.alert(`Not Processing Any Data`);
     }
+  }
+
+  let followUpPromptSection = null;
+
+  if (hasFollowUpPrompt) {
+    followUpPromptSection = (
+      <div className="section section--followup-prompt">
+        <h3>FOLLOWUP PROMPT:</h3>
+
+        <p>
+          Please input the expected AI response from the first prompt that should trigger a second follow-up prompt:
+        </p>
+
+        <input type="text" placeholder="Condition" onChange={changeFollowUpPromptCondition}/>
+
+        <textarea placeholder="Follow-Up Prompt" className="prompt-input" onChange={changeFollowUpPrompt}/> 
+      </div>
+    )
   }
 
   return (
@@ -115,11 +149,21 @@ function App() {
         <p>
           The prompt supports two dynamic data tokens: <strong>&#123;&#123;answer&#125;&#125;</strong> and <strong>&#123;&#123;question&#125;&#125;</strong>. These tokens will be replaced by the question text and the learners actual answer before being submitted to OpenAI.
         </p>
-        <textarea className="prompt-input" onChange={changePrompt}/>
-        <button
-            onClick={submit}
-            disabled={!prompt}
-        >Submit to AI</button>
+        <textarea placeholder="Prompt" className="prompt-input" onChange={changePrompt}/>
+        {followUpPromptSection}
+
+        <div className="button-container">
+          <button
+              onClick={() => setHasFollowUpPrompt(previousState => !previousState)}
+              className="prompt-button"
+          >{hasFollowUpPrompt ? 'Remove Follow-up Prompt' : 'Add Follow-up Prompt'}</button>
+
+          <button
+              onClick={submit}
+              disabled={hasFollowUpPrompt ? (!prompt || !followUpPrompt || !followUpPromptCondition) : !prompt}
+              className="submit-button"
+          >Submit to AI</button>
+        </div>
       </div>
 
       <div className="section section--prompt">
@@ -129,8 +173,8 @@ function App() {
         >CHECK PROGRESS</button>
       </div>
 
-      <div>
-          <a href={`${URL}/download`} target="_blank">Download</a>
+      <div className="download-container">
+          <a className="download-link" href={`${URL}/download`} target="_blank">Download</a>
       </div>
     </div>
   );
