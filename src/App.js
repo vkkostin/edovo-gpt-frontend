@@ -1,6 +1,6 @@
+/*eslint-disable no-unused-vars, react/jsx-no-target-blank*/
 import axios from "axios";
 import { useState } from "react";
-import logo from './logo.svg';
 import './App.css';
 
 // const URL = 'https://edovo-gpt-3d22912cfd6d.herokuapp.com/api';
