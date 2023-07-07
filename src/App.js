@@ -1,6 +1,6 @@
 /*eslint-disable no-unused-vars, react/jsx-no-target-blank*/
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import './App.css';
 
 const URL = 'https://edovo-gpt-3d22912cfd6d.herokuapp.com/api';
@@ -30,6 +30,19 @@ function App() {
   const [followUpPromptCondition, setFollowUpPromptCondition] = useState('');
   const [systemMessage, setSystemMessage] = useState('');
   const [temperature, setTemperature] = useState('');
+  const [chatModels, setChatModels] = useState([]);
+  const [model, setModel] = useState('');
+
+  useEffect(() => {
+    const getModels = async () => {
+      const {data} = await axios.get(`${URL}/models`);
+      const allModels = data.data;
+      const GPTModels = allModels.filter(model => model.id.startsWith('gpt'));
+      setChatModels(GPTModels)
+    }
+
+    getModels();
+  }, []);
 
   const upload = () => {
       let currentFile = selectedFiles[0];
@@ -82,6 +95,7 @@ function App() {
           ...(hasFollowUpPrompt ? {followUpPrompt, followUpPromptCondition} : {}),
           ...(systemMessage ? {systemMessage} : {}),
           ...(temperature ? {temperature} : {}),
+          ...(model ? {model} : {}),
         }
 
         return await axios.post(`${URL}/submit`, data);
@@ -107,6 +121,10 @@ function App() {
 
   const changeTemperature = event => {
     setTemperature(event.target.value);
+  }
+
+  const changeModel = event => {
+    setModel(event.target.value);
   }
 
   const checkProgress = async () => {
@@ -201,6 +219,20 @@ function App() {
             Enter <a href="https://platform.openai.com/docs/guides/gpt/how-should-i-set-the-temperature-parameter" target="_blank">temperature</a> (0-2 in 0.1 increments, optional):
           </p>
           <input className="options" type="number" placeholder="Temperature" min="0" max="2" step="0.1" onChange={changeTemperature}/>
+        </div>
+
+        <div className="outline">
+          <p>
+            Select the chat model you would like to use.
+          </p>
+          <select name="models" className="options" onChange={changeModel}>
+            <option value="">Select Model</option>
+            {chatModels.map(chatModel => {
+              return (
+                <option value={chatModel.id}>{chatModel.id}</option>
+              );
+            })}
+          </select>
         </div>
 
         <button onClick={submit} className="submit-button">Submit to AI</button>
