@@ -216,14 +216,14 @@ function App() {
 
         <div className="outline">
           <p>
-            Enter <a href="https://platform.openai.com/docs/guides/gpt/how-should-i-set-the-temperature-parameter" target="_blank">temperature</a> (0-2 in 0.1 increments, optional):
+            Enter <a href="https://platform.openai.com/docs/guides/gpt/how-should-i-set-the-temperature-parameter" target="_blank">temperature</a> (0-2 in 0.1 increments, optional, default: 0.7):
           </p>
           <input className="options" type="number" placeholder="Temperature" min="0" max="2" step="0.1" onChange={changeTemperature}/>
         </div>
 
         <div className="outline">
           <p>
-            Select the chat model you would like to use.
+            Select the chat model you would like to use (optional, default: gpt-3.5-turbo-0613).
           </p>
           <select name="models" className="options" onChange={changeModel}>
             <option value="">Select Model</option>
