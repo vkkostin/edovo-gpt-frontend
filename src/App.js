@@ -72,7 +72,7 @@ function App() {
 
   const submit = async () => {
     if (hasFollowUpPrompt) {
-      if (!prompt || !followUpPrompt || !followUpPromptCondition) {
+      if (!prompt || !followUpPrompt) {
         window.alert('You must have an initial prompt, a follow-up prompt, and a condition for the follow-up prompt before you can submit.');
         return;
       }
@@ -92,7 +92,7 @@ function App() {
       if (window.confirm('Submitting your prompt will submit your data to OpenAI. You will not be able to submit another batch of data until the current batch of data has processed. Are you sure you want to continue?')) {
         const data = {
           prompt,
-          ...(hasFollowUpPrompt ? {followUpPrompt, followUpPromptCondition} : {}),
+          ...(hasFollowUpPrompt ? {followUpPrompt, ...(followUpPromptCondition ? {followUpPromptCondition}: {})} : {}),
           ...(systemMessage ? {systemMessage} : {}),
           ...(temperature ? {temperature} : {}),
           ...(model ? {model} : {}),
