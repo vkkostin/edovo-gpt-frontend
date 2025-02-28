@@ -7,7 +7,10 @@ function App() {
 
   return (
     <div className="App">
-      Learner Token: {token}
+      iframe into <a href='https://www.vladickostin.com'>vladickostin.com</a>
+      <br/>
+      
+      <p>Learner Token: {token}</p>
     </div>
   );
 }
