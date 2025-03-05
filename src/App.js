@@ -22,6 +22,7 @@ function App() {
       iframe into <a href='https://www.vladickostin.com'>vladickostin.com</a>
       <br/>
       
+      <p>JWT: {token}</p>
       <p>Issuer: {decodedToken.iss}</p>
       <p>Inmate Facility ID: {decodedToken.USER_ID}</p>
       <p>Issued At: {new Date(decodedToken.iat * 1000).toString()}</p>
