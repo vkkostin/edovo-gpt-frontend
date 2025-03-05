@@ -23,7 +23,7 @@ function App() {
       <br/>
       
       <p>Issuer: {decodedToken.iss}</p>
-      <p>Learner Token: {decodedToken.USER_ID}</p>
+      <p>Inmate Facility ID: {decodedToken.USER_ID}</p>
       <p>Issued At: {new Date(decodedToken.iat * 1000).toString()}</p>
       <p>Expires At: {new Date(decodedToken.exp * 1000).toString()}</p>
     </div>
