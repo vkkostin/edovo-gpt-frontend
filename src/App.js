@@ -25,6 +25,7 @@ function App() {
       <p>JWT: {token}</p>
       <p>Issuer: {decodedToken.iss}</p>
       <p>Inmate Facility ID: {decodedToken.USER_ID}</p>
+      <p>Inmate Facility State: {decodedToken.STATE}</p>
       <p>Issued At: {new Date(decodedToken.iat * 1000).toString()}</p>
       <p>Expires At: {new Date(decodedToken.exp * 1000).toString()}</p>
     </div>
