@@ -19,7 +19,7 @@ function App() {
 
   return (
     <div className="App">
-      iframe into <a href='https://www.vladickostin.com'>vladickostin.com</a>
+      iframe into <a href='https://www.vladickostin.com' target="_top">vladickostin.com</a>
       <br/>
 
       <a href='http://localhost:8088/dashboard'>Link</a>
